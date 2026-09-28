@@ -1,0 +1,190 @@
+.attendance-page {
+  width: 100%;
+}
+
+.attendance-page h1 {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.page-description {
+  color: #64748b;
+  margin-bottom: 25px;
+}
+
+
+/* Form */
+
+.attendance-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 12px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 30px;
+}
+
+.attendance-form input,
+.attendance-form select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+  color: #334155;
+  background: white;
+}
+
+.attendance-form input:focus,
+.attendance-form select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.attendance-form button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.attendance-form button:hover {
+  background: #1d4ed8;
+}
+
+.attendance-form .cancel-button {
+  background: #64748b;
+}
+
+
+/* Attendance List */
+
+.attendance-list {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.attendance-list h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.attendance-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.attendance-list th,
+.attendance-list td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.attendance-list th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 14px;
+}
+
+.attendance-list td {
+  color: #334155;
+}
+
+
+/* Status */
+
+.attendance-status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.attendance-status.present {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.attendance-status.absent {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.attendance-status.leave {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+
+/* Buttons */
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-button,
+.delete-button {
+  border: none;
+  padding: 7px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-button {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.delete-button {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.edit-button:hover {
+  background: #bfdbfe;
+}
+
+.delete-button:hover {
+  background: #fecaca;
+}
+
+
+/* Empty */
+
+.empty-message {
+  color: #64748b;
+  padding: 20px 0;
+}
+
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .attendance-form {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .attendance-form {
+    grid-template-columns: 1fr;
+  }
+
+  .attendance-list {
+    overflow-x: auto;
+  }
+
+  .attendance-list table {
+    min-width: 650px;
+  }
+}

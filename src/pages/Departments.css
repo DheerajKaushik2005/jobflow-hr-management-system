@@ -1,0 +1,129 @@
+.departments-page {
+  width: 100%;
+}
+
+.departments-page h1 {
+  margin: 0 0 6px;
+  font-size: 32px;
+  color: #0f172a;
+}
+
+.page-description {
+  margin: 0 0 25px;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.department-form {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr auto;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.department-form input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #334155;
+  background: white;
+}
+
+.department-form input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px #dbeafe;
+}
+
+.department-form button {
+  padding: 13px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.department-form button:hover {
+  background: #1d4ed8;
+}
+
+.department-list-page {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 1000px;
+}
+
+.department-list-page h2 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  color: #0f172a;
+}
+
+.department-list-page table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.department-list-page th,
+.department-list-page td {
+  padding: 15px 14px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.department-list-page th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.department-list-page td {
+  color: #334155;
+  font-size: 14px;
+}
+
+.department-list-page tbody tr:hover {
+  background: #f8fafc;
+}
+
+.department-list-page tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.department-list-page td:first-child {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+@media (max-width: 800px) {
+  .department-form {
+    grid-template-columns: 1fr;
+  }
+
+  .department-form button {
+    width: 100%;
+  }
+
+  .department-list-page {
+    overflow-x: auto;
+  }
+
+  .department-list-page table {
+    min-width: 650px;
+  }
+}

@@ -1,29 +1,41 @@
 import { useState } from "react";
+import "./Emp.css";
 
-function Employees() {
-  // All employees
-  const [employees, setEmployees] = useState([]);
-
-  // Form fields
+function Employees({
+  employees,
+  setEmployees,
+  departments,
+}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
   const [position, setPosition] = useState("");
 
-  // Stores the employee currently being edited
   const [editingId, setEditingId] = useState(null);
 
-  // CREATE / UPDATE
+  const [search, setSearch] = useState("");
+  const [departmentFilter, setDepartmentFilter] =
+    useState("All");
+
+  /* =========================
+     ADD / UPDATE EMPLOYEE
+  ========================= */
+
   function handleSubmit(event) {
     event.preventDefault();
 
-    // Basic validation
-    if (!name || !email || !department || !position) {
+    if (
+      !name ||
+      !email ||
+      !department ||
+      !position
+    ) {
       alert("Please fill all fields");
       return;
     }
 
-    // If editingId exists → UPDATE
+    /* UPDATE */
+
     if (editingId !== null) {
       setEmployees(
         employees.map((employee) =>
@@ -39,10 +51,12 @@ function Employees() {
         )
       );
 
-      // Exit edit mode
       setEditingId(null);
-    } else {
-      // Otherwise → CREATE
+    }
+
+    /* ADD */
+
+    else {
       const newEmployee = {
         id: Date.now(),
         name: name,
@@ -51,13 +65,20 @@ function Employees() {
         position: position,
       };
 
-      setEmployees([...employees, newEmployee]);
+      setEmployees([
+        ...employees,
+        newEmployee,
+      ]);
     }
 
     clearForm();
   }
 
-  // Clear form
+
+  /* =========================
+     CLEAR FORM
+  ========================= */
+
   function clearForm() {
     setName("");
     setEmail("");
@@ -65,7 +86,11 @@ function Employees() {
     setPosition("");
   }
 
-  // EDIT
+
+  /* =========================
+     EDIT EMPLOYEE
+  ========================= */
+
   function handleEdit(employee) {
     setEditingId(employee.id);
 
@@ -75,7 +100,11 @@ function Employees() {
     setPosition(employee.position);
   }
 
-  // DELETE
+
+  /* =========================
+     DELETE EMPLOYEE
+  ========================= */
+
   function handleDelete(id) {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this employee?"
@@ -83,15 +112,62 @@ function Employees() {
 
     if (confirmDelete) {
       setEmployees(
-        employees.filter((employee) => employee.id !== id)
+        employees.filter(
+          (employee) => employee.id !== id
+        )
       );
     }
   }
 
+
+  /* =========================
+     FILTER EMPLOYEES
+  ========================= */
+
+  const filteredEmployees =
+    employees.filter((employee) => {
+
+      const searchText =
+        search.toLowerCase();
+
+      const matchesSearch =
+        employee.name
+          .toLowerCase()
+          .includes(searchText) ||
+
+        employee.email
+          .toLowerCase()
+          .includes(searchText) ||
+
+        employee.department
+          .toLowerCase()
+          .includes(searchText) ||
+
+        employee.position
+          .toLowerCase()
+          .includes(searchText);
+
+      const matchesDepartment =
+        departmentFilter === "All" ||
+        employee.department ===
+          departmentFilter;
+
+      return (
+        matchesSearch &&
+        matchesDepartment
+      );
+    });
+
+
   return (
     <div className="employees-page">
 
+      {/* =========================
+          PAGE HEADER
+      ========================= */}
+
       <h1>Employees</h1>
+
 
       {/* =========================
           EMPLOYEE FORM
@@ -102,28 +178,56 @@ function Employees() {
         onSubmit={handleSubmit}
       >
 
+        {/* NAME */}
+
         <input
           type="text"
           placeholder="Employee Name"
           value={name}
-          onChange={(event) => setName(event.target.value)}
+          onChange={(event) =>
+            setName(event.target.value)
+          }
         />
+
+
+        {/* EMAIL */}
 
         <input
           type="email"
           placeholder="Email"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(event) =>
+            setEmail(event.target.value)
+          }
         />
 
-        <input
-          type="text"
-          placeholder="Department"
+
+        {/* DEPARTMENT */}
+
+        <select
           value={department}
           onChange={(event) =>
             setDepartment(event.target.value)
           }
-        />
+        >
+
+          <option value="">
+            Select Department
+          </option>
+
+          {departments.map((item) => (
+            <option
+              key={item.id}
+              value={item.name}
+            >
+              {item.name}
+            </option>
+          ))}
+
+        </select>
+
+
+        {/* POSITION */}
 
         <input
           type="text"
@@ -134,7 +238,8 @@ function Employees() {
           }
         />
 
-        {/* Button changes depending on mode */}
+
+        {/* SUBMIT BUTTON */}
 
         <button type="submit">
           {editingId !== null
@@ -142,7 +247,8 @@ function Employees() {
             : "Add Employee"}
         </button>
 
-        {/* Cancel editing */}
+
+        {/* CANCEL */}
 
         {editingId !== null && (
           <button
@@ -159,6 +265,67 @@ function Employees() {
 
       </form>
 
+
+      {/* =========================
+          SEARCH + FILTER
+      ========================= */}
+
+      <div className="employee-controls">
+
+        {/* SEARCH */}
+
+        <div className="employee-search">
+
+          <input
+            type="text"
+            placeholder="🔍 Search by name, email, department or position..."
+            value={search}
+            onChange={(event) =>
+              setSearch(event.target.value)
+            }
+          />
+
+        </div>
+
+
+        {/* DEPARTMENT FILTER */}
+
+        <div className="department-filter">
+
+          <label htmlFor="departmentFilter">
+            Department
+          </label>
+
+          <select
+            id="departmentFilter"
+            value={departmentFilter}
+            onChange={(event) =>
+              setDepartmentFilter(
+                event.target.value
+              )
+            }
+          >
+
+            <option value="All">
+              All Departments
+            </option>
+
+            {departments.map((item) => (
+              <option
+                key={item.id}
+                value={item.name}
+              >
+                {item.name}
+              </option>
+            ))}
+
+          </select>
+
+        </div>
+
+      </div>
+
+
       {/* =========================
           EMPLOYEE LIST
       ========================= */}
@@ -167,10 +334,11 @@ function Employees() {
 
         <h2>Employee List</h2>
 
-        {employees.length === 0 ? (
+
+        {filteredEmployees.length === 0 ? (
 
           <p className="empty-message">
-            No employees added yet.
+            No employees found.
           </p>
 
         ) : (
@@ -180,52 +348,90 @@ function Employees() {
             <thead>
 
               <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Department</th>
-                <th>Position</th>
-                <th>Actions</th>
+
+                <th>
+                  Name
+                </th>
+
+                <th>
+                  Email
+                </th>
+
+                <th>
+                  Department
+                </th>
+
+                <th>
+                  Position
+                </th>
+
+                <th>
+                  Actions
+                </th>
+
               </tr>
 
             </thead>
 
+
             <tbody>
 
-              {employees.map((employee) => (
+              {filteredEmployees.map(
+                (employee) => (
 
-                <tr key={employee.id}>
+                  <tr
+                    key={employee.id}
+                  >
 
-                  <td>{employee.name}</td>
+                    <td>
+                      {employee.name}
+                    </td>
 
-                  <td>{employee.email}</td>
+                    <td>
+                      {employee.email}
+                    </td>
 
-                  <td>{employee.department}</td>
+                    <td>
+                      {employee.department}
+                    </td>
 
-                  <td>{employee.position}</td>
+                    <td>
+                      {employee.position}
+                    </td>
 
-                  <td className="actions">
+                    <td className="actions">
 
-                    <button
-                      type="button"
-                      className="edit-button"
-                      onClick={() => handleEdit(employee)}
-                    >
-                      Edit
-                    </button>
+                      <button
+                        type="button"
+                        className="edit-button"
+                        onClick={() =>
+                          handleEdit(
+                            employee
+                          )
+                        }
+                      >
+                        Edit
+                      </button>
 
-                    <button
-                      type="button"
-                      className="delete-button"
-                      onClick={() => handleDelete(employee.id)}
-                    >
-                      Delete
-                    </button>
 
-                  </td>
+                      <button
+                        type="button"
+                        className="delete-button"
+                        onClick={() =>
+                          handleDelete(
+                            employee.id
+                          )
+                        }
+                      >
+                        Delete
+                      </button>
 
-                </tr>
+                    </td>
 
-              ))}
+                  </tr>
+
+                )
+              )}
 
             </tbody>
 
