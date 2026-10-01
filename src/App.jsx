@@ -9,46 +9,63 @@ import Employees from "./pages/Employees";
 import Departments from "./pages/Departments";
 import Attendance from "./pages/Attendance";
 import Leave from "./pages/Leave";
+import Tasks from "./pages/Tasks";
 
 function App() {
-
+  // Employees
   const [employees, setEmployees] = useState([]);
 
+  // Departments
   const [departments, setDepartments] = useState([
     {
       id: 1,
       name: "Engineering",
-      description: "Software development and technology",
+      description:
+        "Software development and technology",
     },
     {
       id: 2,
       name: "Human Resources",
-      description: "Employee management and recruitment",
+      description:
+        "Employee management and recruitment",
     },
     {
       id: 3,
       name: "Marketing",
-      description: "Marketing and brand management",
+      description:
+        "Marketing and brand management",
     },
   ]);
 
+  // Attendance
   const [attendance, setAttendance] = useState([]);
 
-  // Shared leave state
+  // Leave
   const [leaves, setLeaves] = useState([]);
+
+  // Tasks
+  const [tasks, setTasks] = useState([]);
 
   return (
     <div className="app">
 
+      {/* Sidebar */}
+
       <Sidebar />
 
       <div className="main-area">
+
+        {/* Navbar */}
 
         <Navbar />
 
         <main className="content">
 
           <Routes>
+
+            {/* =========================
+                DASHBOARD
+            ========================= */}
 
             <Route
               path="/"
@@ -72,6 +89,10 @@ function App() {
               }
             />
 
+            {/* =========================
+                EMPLOYEES
+            ========================= */}
+
             <Route
               path="/employees"
               element={
@@ -83,6 +104,10 @@ function App() {
               }
             />
 
+            {/* =========================
+                DEPARTMENTS
+            ========================= */}
+
             <Route
               path="/departments"
               element={
@@ -92,6 +117,10 @@ function App() {
                 />
               }
             />
+
+            {/* =========================
+                ATTENDANCE
+            ========================= */}
 
             <Route
               path="/attendance"
@@ -105,6 +134,10 @@ function App() {
               }
             />
 
+            {/* =========================
+                LEAVE
+            ========================= */}
+
             <Route
               path="/leave"
               element={
@@ -112,6 +145,21 @@ function App() {
                   employees={employees}
                   leaves={leaves}
                   setLeaves={setLeaves}
+                />
+              }
+            />
+
+            {/* =========================
+                TASKS
+            ========================= */}
+
+            <Route
+              path="/tasks"
+              element={
+                <Tasks
+                  employees={employees}
+                  tasks={tasks}
+                  setTasks={setTasks}
                 />
               }
             />
