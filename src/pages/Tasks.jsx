@@ -15,6 +15,15 @@ function Tasks({
 
   const [editingId, setEditingId] = useState(null);
 
+  // Search and filters
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] =
+    useState("All");
+
+  const [priorityFilter, setPriorityFilter] =
+    useState("All");
+
+  // Add / Update Task
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -29,7 +38,8 @@ function Tasks({
     }
 
     const employee = employees.find(
-      (item) => item.id === Number(employeeId)
+      (item) =>
+        item.id === Number(employeeId)
     );
 
     if (!employee) {
@@ -37,8 +47,7 @@ function Tasks({
       return;
     }
 
-    // UPDATE TASK
-
+    // Update
     if (editingId !== null) {
       setTasks(
         tasks.map((task) =>
@@ -58,12 +67,10 @@ function Tasks({
       );
 
       clearForm();
-
       return;
     }
 
-    // ADD TASK
-
+    // Add
     const newTask = {
       id: Date.now(),
       employeeId: employee.id,
@@ -83,6 +90,7 @@ function Tasks({
     clearForm();
   }
 
+  // Clear form
   function clearForm() {
     setEmployeeId("");
     setTitle("");
@@ -93,6 +101,7 @@ function Tasks({
     setEditingId(null);
   }
 
+  // Edit
   function handleEdit(task) {
     setEditingId(task.id);
 
@@ -101,18 +110,13 @@ function Tasks({
     );
 
     setTitle(task.title);
-
-    setDescription(
-      task.description
-    );
-
+    setDescription(task.description);
     setDueDate(task.dueDate);
-
     setPriority(task.priority);
-
     setStatus(task.status);
   }
 
+  // Delete
   function handleDelete(id) {
     const confirmDelete =
       window.confirm(
@@ -128,6 +132,57 @@ function Tasks({
     }
   }
 
+  // Task summary
+  const totalTasks = tasks.length;
+
+  const pendingTasks = tasks.filter(
+    (task) =>
+      task.status === "Pending"
+  ).length;
+
+  const inProgressTasks = tasks.filter(
+    (task) =>
+      task.status === "In Progress"
+  ).length;
+
+  const completedTasks = tasks.filter(
+    (task) =>
+      task.status === "Completed"
+  ).length;
+
+  // Search + Filter
+  const filteredTasks = tasks.filter(
+    (task) => {
+      const searchText =
+        search.toLowerCase();
+
+      const matchesSearch =
+        task.title
+          .toLowerCase()
+          .includes(searchText) ||
+        task.description
+          .toLowerCase()
+          .includes(searchText) ||
+        task.employeeName
+          .toLowerCase()
+          .includes(searchText);
+
+      const matchesStatus =
+        statusFilter === "All" ||
+        task.status === statusFilter;
+
+      const matchesPriority =
+        priorityFilter === "All" ||
+        task.priority === priorityFilter;
+
+      return (
+        matchesSearch &&
+        matchesStatus &&
+        matchesPriority
+      );
+    }
+  );
+
   return (
     <div className="tasks-page">
 
@@ -137,12 +192,42 @@ function Tasks({
         Assign and manage employee tasks.
       </p>
 
+      {/* SUMMARY CARDS */}
+
+      <div className="task-summary">
+
+        <div className="task-summary-card">
+          <span>Total Tasks</span>
+          <strong>{totalTasks}</strong>
+        </div>
+
+        <div className="task-summary-card">
+          <span>Pending</span>
+          <strong>{pendingTasks}</strong>
+        </div>
+
+        <div className="task-summary-card">
+          <span>In Progress</span>
+          <strong>
+            {inProgressTasks}
+          </strong>
+        </div>
+
+        <div className="task-summary-card">
+          <span>Completed</span>
+          <strong>
+            {completedTasks}
+          </strong>
+        </div>
+
+      </div>
+
+      {/* FORM */}
+
       <form
         className="tasks-form"
         onSubmit={handleSubmit}
       >
-
-        {/* Employee */}
 
         <select
           value={employeeId}
@@ -168,8 +253,6 @@ function Tasks({
           )}
         </select>
 
-        {/* Task Title */}
-
         <input
           type="text"
           placeholder="Task Title"
@@ -180,8 +263,6 @@ function Tasks({
             )
           }
         />
-
-        {/* Description */}
 
         <input
           type="text"
@@ -194,8 +275,6 @@ function Tasks({
           }
         />
 
-        {/* Due Date */}
-
         <input
           type="date"
           value={dueDate}
@@ -205,8 +284,6 @@ function Tasks({
             )
           }
         />
-
-        {/* Priority */}
 
         <select
           value={priority}
@@ -229,8 +306,6 @@ function Tasks({
           </option>
         </select>
 
-        {/* Status */}
-
         <select
           value={status}
           onChange={(event) =>
@@ -252,15 +327,11 @@ function Tasks({
           </option>
         </select>
 
-        {/* Submit */}
-
         <button type="submit">
           {editingId !== null
             ? "Update Task"
             : "Add Task"}
         </button>
-
-        {/* Cancel */}
 
         {editingId !== null && (
           <button
@@ -274,13 +345,99 @@ function Tasks({
 
       </form>
 
+      {/* SEARCH AND FILTERS */}
+
+      <div className="task-controls">
+
+        <div className="task-search">
+          <input
+            type="text"
+            placeholder="🔍 Search by task, employee or description..."
+            value={search}
+            onChange={(event) =>
+              setSearch(
+                event.target.value
+              )
+            }
+          />
+        </div>
+
+        <div className="task-filter">
+
+          <label>
+            Status
+          </label>
+
+          <select
+            value={statusFilter}
+            onChange={(event) =>
+              setStatusFilter(
+                event.target.value
+              )
+            }
+          >
+            <option value="All">
+              All Status
+            </option>
+
+            <option value="Pending">
+              Pending
+            </option>
+
+            <option value="In Progress">
+              In Progress
+            </option>
+
+            <option value="Completed">
+              Completed
+            </option>
+          </select>
+
+        </div>
+
+        <div className="task-filter">
+
+          <label>
+            Priority
+          </label>
+
+          <select
+            value={priorityFilter}
+            onChange={(event) =>
+              setPriorityFilter(
+                event.target.value
+              )
+            }
+          >
+            <option value="All">
+              All Priority
+            </option>
+
+            <option value="Low">
+              Low
+            </option>
+
+            <option value="Medium">
+              Medium
+            </option>
+
+            <option value="High">
+              High
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
       {/* TASK LIST */}
 
       <div className="task-list">
 
         <h2>Task List</h2>
 
-        {tasks.length === 0 ? (
+        {filteredTasks.length === 0 ? (
 
           <p className="empty-message">
             No tasks found.
@@ -328,7 +485,7 @@ function Tasks({
 
             <tbody>
 
-              {tasks.map(
+              {filteredTasks.map(
                 (task) => (
 
                   <tr
