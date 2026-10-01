@@ -10,6 +10,7 @@ import Departments from "./pages/Departments";
 import Attendance from "./pages/Attendance";
 import Leave from "./pages/Leave";
 import Tasks from "./pages/Tasks";
+import Onboarding from "./pages/Onboarding";
 
 function App() {
   // Employees
@@ -46,16 +47,16 @@ function App() {
   // Tasks
   const [tasks, setTasks] = useState([]);
 
+  // Onboarding
+  const [onboarding, setOnboarding] =
+    useState([]);
+
   return (
     <div className="app">
-
-      {/* Sidebar */}
 
       <Sidebar />
 
       <div className="main-area">
-
-        {/* Navbar */}
 
         <Navbar />
 
@@ -63,9 +64,7 @@ function App() {
 
           <Routes>
 
-            {/* =========================
-                DASHBOARD
-            ========================= */}
+            {/* Dashboard */}
 
             <Route
               path="/"
@@ -89,9 +88,7 @@ function App() {
               }
             />
 
-            {/* =========================
-                EMPLOYEES
-            ========================= */}
+            {/* Employees */}
 
             <Route
               path="/employees"
@@ -104,9 +101,7 @@ function App() {
               }
             />
 
-            {/* =========================
-                DEPARTMENTS
-            ========================= */}
+            {/* Departments */}
 
             <Route
               path="/departments"
@@ -118,9 +113,7 @@ function App() {
               }
             />
 
-            {/* =========================
-                ATTENDANCE
-            ========================= */}
+            {/* Attendance */}
 
             <Route
               path="/attendance"
@@ -134,9 +127,7 @@ function App() {
               }
             />
 
-            {/* =========================
-                LEAVE
-            ========================= */}
+            {/* Leave */}
 
             <Route
               path="/leave"
@@ -149,9 +140,7 @@ function App() {
               }
             />
 
-            {/* =========================
-                TASKS
-            ========================= */}
+            {/* Tasks */}
 
             <Route
               path="/tasks"
@@ -160,6 +149,19 @@ function App() {
                   employees={employees}
                   tasks={tasks}
                   setTasks={setTasks}
+                />
+              }
+            />
+
+            {/* Onboarding */}
+
+            <Route
+              path="/onboarding"
+              element={
+                <Onboarding
+                  employees={employees}
+                  onboarding={onboarding}
+                  setOnboarding={setOnboarding}
                 />
               }
             />
