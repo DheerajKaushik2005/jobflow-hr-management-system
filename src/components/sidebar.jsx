@@ -1,46 +1,77 @@
 import { NavLink } from "react-router-dom";
 
 function Sidebar() {
+  const menuItems = [
+    {
+      name: "Dashboard",
+      path: "/dashboard",
+      icon: "▦",
+    },
+    {
+      name: "Employees",
+      path: "/employees",
+      icon: "♙",
+    },
+    {
+      name: "Departments",
+      path: "/departments",
+      icon: "▤",
+    },
+    {
+      name: "Attendance",
+      path: "/attendance",
+      icon: "✓",
+    },
+    {
+      name: "Leave",
+      path: "/leave",
+      icon: "▣",
+    },
+    {
+      name: "Tasks",
+      path: "/tasks",
+      icon: "☑",
+    },
+    {
+      name: "Onboarding",
+      path: "/onboarding",
+      icon: "♙",
+    },
+    {
+      name: "Reports",
+      path: "/reports",
+      icon: "▥",
+    },
+  ];
+
   return (
     <aside className="sidebar">
 
-      <div className="logo">
+      {/* LOGO */}
+      <div className="sidebar-logo">
         JobFlow
       </div>
 
-      <nav>
+      {/* MENU */}
+      <nav className="sidebar-nav">
 
-        <NavLink to="/dashboard">
-          Dashboard
-        </NavLink>
+        {menuItems.map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            className={({ isActive }) =>
+              `sidebar-link ${isActive ? "active" : ""}`
+            }
+          >
+            <span className="sidebar-icon">
+              {item.icon}
+            </span>
 
-        <NavLink to="/employees">
-          Employees
-        </NavLink>
-
-        <NavLink to="/departments">
-          Departments
-        </NavLink>
-
-        <NavLink to="/attendance">
-          Attendance
-        </NavLink>
-
-        <NavLink to="/leave">
-          Leave
-        </NavLink>
-
-        <NavLink to="/tasks">
-          Tasks
-        </NavLink>
-
-        <NavLink to="/onboarding">
-          Onboarding
-        </NavLink>
-
-        <NavLink to="/reports">
-          Reports
-        </NavLink>
+            <span className="sidebar-text">
+              {item.name}
+            </span>
+          </NavLink>
+        ))}
 
       </nav>
 
